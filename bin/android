@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+"use strict"
+
+const path = require("path")
+const program = require("commander")
+const Android = require("../src/android")
+
+program.version("1.0.0")
+  .option("-n, --name <value>", "name of the application")
+  .option("-p, --packageName <value>", "package name of the application")
+  .option("-o, --output <path>", "output path of the application")
+
+program.parse(process.argv)
+
+if (program.name && program.packageName) {
+  let output = program.output ? path.resolve(program.output) : process.cwd()
+  Android.library(program.name, program.packageName, output)
+}

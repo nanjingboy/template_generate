@@ -1,0 +1,28 @@
+{
+  "name": "template_generator",
+  "version": "1.0.0",
+  "description": "A simple tool to generate application template",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nanjingboy/template_generator.git"
+  },
+  "keywords": [
+    "application",
+    "template",
+    "generator"
+  ],
+  "author": "Tom.Huang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nanjingboy/template_generator/issues"
+  },
+  "homepage": "https://github.com/nanjingboy/template_generator#readme",
+  "engines": {
+    "node": ">=7"
+  },
+  "dependencies": {
+    "commander": "^2.9.0",
+    "copy-dir": "^0.3.0",
+    "mkdirp": "^0.5.1"
+  }
+}
