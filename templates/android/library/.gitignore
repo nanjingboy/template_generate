@@ -1,9 +1,3 @@
-.gradle
-.idea
-.DS_Store
-*.iml
-/local.properties
 /build
-/captures
-.project
+.classpath
 .settings/
