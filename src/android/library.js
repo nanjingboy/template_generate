@@ -69,8 +69,4 @@ module.exports = class Library extends Base {
       fs.unlinkSync(path.join(targetPath, "sample", "src", "main", "res", "layout", "activity_main.xml"))
     }
   }
-
-  copyFile(sourcePath, targetPath) {
-    fs.writeFileSync(targetPath, fs.readFileSync(sourcePath, "utf8"), "utf8")
-  }
 }

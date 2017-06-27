@@ -1,5 +1,7 @@
 "use strict"
 
+const fs = require("fs")
+
 module.exports = class Base {
 
   constructor(name, packageName, output) {
@@ -16,5 +18,9 @@ module.exports = class Base {
 
   java() {
     this.run('java')
+  }
+
+  copyFile(sourcePath, targetPath) {
+    fs.writeFileSync(targetPath, fs.readFileSync(sourcePath, "utf8"), "utf8")
   }
 }

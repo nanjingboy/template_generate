@@ -60,8 +60,4 @@ module.exports = class App extends Base {
       fs.unlinkSync(path.join(targetPath, "app", "src", "main", "res", "layout", "activity_main.xml"))
     }
   }
-
-  copyFile(sourcePath, targetPath) {
-    fs.writeFileSync(targetPath, fs.readFileSync(sourcePath, "utf8"), "utf8")
-  }
 }
