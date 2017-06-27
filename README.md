@@ -12,8 +12,6 @@ A simple tool to generate application template
 
 ## Usage
 
-### Android Library
-
 ```shell
   $ ~/template_generator/bin/android -h
 
