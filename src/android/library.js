@@ -4,7 +4,6 @@ const fs = require("fs")
 const path = require("path")
 const mkdirp = require("mkdirp")
 const copydir = require("copy-dir")
-const rmdir = require('rmdir')
 const Base = require("./base")
 
 module.exports = class Library extends Base {
@@ -12,8 +11,24 @@ module.exports = class Library extends Base {
   run(language) {
     const { output, name, packageName } = this.pros
     const targetPath = path.join(output, name)
-    const templatePath = path.join(__dirname, "..", "..", "templates", "android", "library")
-    copydir.sync(templatePath, targetPath)
+    const sampleBuildGradlePath = path.join(targetPath, "sample", "build.gradle")
+    const configTemplatePath = path.join(__dirname, "..", "..", "templates", "android", "templates", "library")
+    copydir.sync(
+      path.join(__dirname, "..", "..", "templates", "android", "library"),
+      targetPath
+    )
+    this.copyFile(
+      path.join(configTemplatePath, `build.${language}.gradle`),
+      path.join(targetPath, "build.gradle")
+    )
+    this.copyFile(
+      path.join(configTemplatePath, `library.build.${language}.gradle`),
+      path.join(targetPath, "library", "build.gradle")
+    )
+    this.copyFile(
+      path.join(configTemplatePath, `sample.build.${language}.gradle`),
+      sampleBuildGradlePath
+    )
 
     let librarySrcPath = path.join(targetPath, "library", "src", "main", "java")
     let sampleSrcPath = path.join(targetPath, "sample", "src", "main", "java")
@@ -24,13 +39,18 @@ module.exports = class Library extends Base {
     sampleSrcPath = path.join(sampleSrcPath, "sample")
     mkdirp.sync(librarySrcPath)
     mkdirp.sync(sampleSrcPath)
+    this.copyFile(
+      path.join(configTemplatePath, `sample.build.${language}.gradle`),
+      sampleBuildGradlePath
+    )
 
-    let mainActivityPath = path.join(targetPath, "sample", "src", "template")
-    if (language === "kotlin") {
-      mainActivityPath = path.join(mainActivityPath, "MainActivity.kt")
-    } else {
-      mainActivityPath = path.join(mainActivityPath, "MainActivity.java")
-    }
+    const mainActivityName = language === "java" ? "MainActivity.java" : "MainActivity.kt"
+    const mainActivityPath = path.join(sampleSrcPath, mainActivityName)
+    this.copyFile(
+      path.join(configTemplatePath, mainActivityName),
+      mainActivityPath
+    )
+
     const packageNameReplacePaths = [
       path.join(targetPath, "library", "src", "main", "AndroidManifest.xml"),
       path.join(targetPath, "sample", "src", "main", "AndroidManifest.xml"),
@@ -44,15 +64,19 @@ module.exports = class Library extends Base {
         "utf8"
       )
     })
-    fs.createReadStream(mainActivityPath).pipe(
-      fs.createWriteStream(path.join(sampleSrcPath, "MainActivity.java"))
-    )
-    rmdir(path.dirname(mainActivityPath), () => {})
     const sampleValuesResPath = path.join(targetPath, "sample", "src", "main", "res", "values", "strings.xml")
     fs.writeFileSync(
       sampleValuesResPath,
       fs.readFileSync(sampleValuesResPath, "utf8").replace(/{AppName}/g, name),
       "utf8"
     )
+    if (language === 'kotlin') {
+      fs.unlinkSync(path.join(targetPath, "sample", "src", "main", "res", "layout", "activity_main.xml"))
+    }
+  }
+
+
+  copyFile(sourcePath, targetPath) {
+    fs.writeFileSync(targetPath, fs.readFileSync(sourcePath, "utf8"), "utf8")
   }
 }
