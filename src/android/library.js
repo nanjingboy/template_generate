@@ -11,7 +11,6 @@ module.exports = class Library extends Base {
   run(language) {
     const { output, name, packageName } = this.pros
     const targetPath = path.join(output, name)
-    const sampleBuildGradlePath = path.join(targetPath, "sample", "build.gradle")
     const configTemplatePath = path.join(__dirname, "..", "..", "templates", "android", "templates", "library")
     copydir.sync(
       path.join(__dirname, "..", "..", "templates", "android", "library"),
@@ -27,7 +26,7 @@ module.exports = class Library extends Base {
     )
     this.copyFile(
       path.join(configTemplatePath, `sample.build.${language}.gradle`),
-      sampleBuildGradlePath
+      path.join(targetPath, "sample", "build.gradle")
     )
 
     let librarySrcPath = path.join(targetPath, "library", "src", "main", "java")
@@ -39,10 +38,6 @@ module.exports = class Library extends Base {
     sampleSrcPath = path.join(sampleSrcPath, "sample")
     mkdirp.sync(librarySrcPath)
     mkdirp.sync(sampleSrcPath)
-    this.copyFile(
-      path.join(configTemplatePath, `sample.build.${language}.gradle`),
-      sampleBuildGradlePath
-    )
 
     const mainActivityName = language === "java" ? "MainActivity.java" : "MainActivity.kt"
     const mainActivityPath = path.join(sampleSrcPath, mainActivityName)
@@ -74,7 +69,6 @@ module.exports = class Library extends Base {
       fs.unlinkSync(path.join(targetPath, "sample", "src", "main", "res", "layout", "activity_main.xml"))
     }
   }
-
 
   copyFile(sourcePath, targetPath) {
     fs.writeFileSync(targetPath, fs.readFileSync(sourcePath, "utf8"), "utf8")
