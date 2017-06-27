@@ -4,16 +4,28 @@
 
 const path = require("path")
 const program = require("commander")
-const Android = require("../src/android")
 
-program.version("1.0.0")
+program.version("1.1.0")
   .option("-n, --name <value>", "name of the application")
   .option("-p, --packageName <value>", "package name of the application")
   .option("-o, --output <path>", "output path of the application")
+  .option("-t, --type <value>", "type of the application, the value is app or library",  /^(app|library)$/i)
+  .option("-l, --language <value>", "language of the application, the value is java or kotlin",  /^(java|kotlin)$/i)
+
+program.on("--help", () => {
+  console.log("  Examples:");
+  console.log("");
+  console.log("    $ android -n demo -p me.tom.demo -o ~/workspace -t library -l java")
+  console.log("    $ android -n demo -p me.tom.demo -o ~/workspace -t app -l kotlin")
+  console.log("")
+})
 
 program.parse(process.argv)
 
-if (program.name && program.packageName) {
+if (program.name && program.packageName && program.type && program.language) {
   let output = program.output ? path.resolve(program.output) : process.cwd()
-  Android.library(program.name, program.packageName, output)
+  const android = new (require(`../src/android/${program.type.toLowerCase()}`))(
+    program.name.toLowerCase(), program.packageName.toLowerCase(), output
+  )
+  android[program.language.toLowerCase()]()
 }

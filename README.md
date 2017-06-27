@@ -26,6 +26,13 @@ A simple tool to generate application template
     -n, --name <value>         name of the application
     -p, --packageName <value>  package name of the application
     -o, --output <path>        output path of the application
+    -t, --type <value>         type of the application, the value is app or library
+    -l, --language <value>     language of the application, the value is java or kotlin
+
+  Examples:
+
+    $ android -n demo -p me.tom.demo -o ~/workspace -t library -l java
+    $ android -n demo -p me.tom.demo -o ~/workspace -t app -l kotlin
 ```
 
 ## License

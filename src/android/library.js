@@ -4,13 +4,15 @@ const fs = require("fs")
 const path = require("path")
 const mkdirp = require("mkdirp")
 const copydir = require("copy-dir")
+const rmdir = require('rmdir')
+const Base = require("./base")
 
-class Android {
+module.exports = class Library extends Base {
 
-  static library(name, packageName, output) {
+  run(language) {
+    const { output, name, packageName } = this.pros
     const targetPath = path.join(output, name)
-    const templatePath = path.join(__dirname, "..", "templates", "android")
-
+    const templatePath = path.join(__dirname, "..", "..", "templates", "android", "library")
     copydir.sync(templatePath, targetPath)
 
     let librarySrcPath = path.join(targetPath, "library", "src", "main", "java")
@@ -23,7 +25,12 @@ class Android {
     mkdirp.sync(librarySrcPath)
     mkdirp.sync(sampleSrcPath)
 
-    const mainActivityPath = path.join(targetPath, "sample", "src", "main", "java", "MainActivity.java")
+    let mainActivityPath = path.join(targetPath, "sample", "src", "template")
+    if (language === "kotlin") {
+      mainActivityPath = path.join(mainActivityPath, "MainActivity.kt")
+    } else {
+      mainActivityPath = path.join(mainActivityPath, "MainActivity.java")
+    }
     const packageNameReplacePaths = [
       path.join(targetPath, "library", "src", "main", "AndroidManifest.xml"),
       path.join(targetPath, "sample", "src", "main", "AndroidManifest.xml"),
@@ -40,8 +47,7 @@ class Android {
     fs.createReadStream(mainActivityPath).pipe(
       fs.createWriteStream(path.join(sampleSrcPath, "MainActivity.java"))
     )
-    fs.unlinkSync(mainActivityPath)
-
+    rmdir(path.dirname(mainActivityPath), () => {})
     const sampleValuesResPath = path.join(targetPath, "sample", "src", "main", "res", "values", "strings.xml")
     fs.writeFileSync(
       sampleValuesResPath,
@@ -50,5 +56,3 @@ class Android {
     )
   }
 }
-
-module.exports = Android
