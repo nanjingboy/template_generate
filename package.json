@@ -23,6 +23,7 @@
   "dependencies": {
     "commander": "^2.9.0",
     "copy-dir": "^0.3.0",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "rmdir": "^1.2.0"
   }
 }
