@@ -14,8 +14,8 @@ program.version("1.1.0")
   .option("-l, --language <value>", "language of the application, the value is java or kotlin",  /^(java|kotlin)$/i)
 
 program.on("--help", () => {
-  console.log("  Examples:");
-  console.log("");
+  console.log("  Examples:")
+  console.log("")
   console.log("    $ android -n demo -p me.tom.demo -o ~/workspace -t library -l java")
   console.log("    $ android -n demo -p me.tom.demo -o ~/workspace -t app -l kotlin")
   console.log("")
