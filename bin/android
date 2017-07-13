@@ -5,8 +5,9 @@
 const path = require("path")
 const rmdir = require("rmdir")
 const program = require("commander")
+const Config = require("../src/config")
 
-program.version("1.1.0")
+program.version(Config.version())
   .option("-n, --name <value>", "name of the application")
   .option("-p, --packageName <value>", "package name of the application")
   .option("-o, --output <path>", "output path of the application")
