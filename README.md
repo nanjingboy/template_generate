@@ -12,6 +12,8 @@ A simple tool to generate application template
 
 ## Usage
 
+### Android
+
 ```shell
   $ ~/template_generator/bin/android -h
 
@@ -31,6 +33,25 @@ A simple tool to generate application template
 
     $ android -n demo -p me.tom.demo -o ~/workspace -t library -l java
     $ android -n demo -p me.tom.demo -o ~/workspace -t app -l kotlin
+```
+
+### iOS
+
+```shell
+  $ ~/template_generator/bin/ios -h
+
+  Usage: ios [options]
+
+  Options:
+
+    -h, --help           output usage information
+    -V, --version        output the version number
+    -n, --name <value>   name of the application
+    -o, --output <path>  output path of the application
+
+  Examples:
+
+    $ ios -n Demo -o ~/workspace
 ```
 
 ## License
