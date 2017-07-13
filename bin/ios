@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+"use strict"
+
+const path = require("path")
+const rmdir = require("rmdir")
+const program = require("commander")
+const Config = require("../src/config")
+const Ios = require("../src/ios/library")
+
+program.version(Config.version())
+  .option("-n, --name <value>", "name of the application")
+  .option("-o, --output <path>", "output path of the application")
+
+program.on("--help", () => {
+  console.log("  Examples:")
+  console.log("")
+  console.log("    $ ios -n Demo -o ~/workspace")
+  console.log("")
+})
+
+program.parse(process.argv)
+
+if (program.name) {
+  let output = program.output ? path.resolve(program.output) : process.cwd()
+  rmdir(path.join(output, program.name), () => {
+    const ios = new Ios(program.name, output)
+    ios.swift()
+  })
+}
