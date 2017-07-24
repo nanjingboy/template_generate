@@ -1,3 +1,10 @@
+## 1.2.1 2017-07-25
+
+* Android:don't convert name to lower case
+* Fix android library template directory structure error
+
+* Add iOS Swift library template generator
+
 ## 1.2.0 2017-07-13
 
 * Add iOS Swift library template generator
