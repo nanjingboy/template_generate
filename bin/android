@@ -28,7 +28,7 @@ if (program.name && program.packageName && program.type && program.language) {
   let output = program.output ? path.resolve(program.output) : process.cwd()
   rmdir(path.join(output, program.name), () => {
     const android = new (require(`../src/android/${program.type.toLowerCase()}`))(
-      program.name.toLowerCase(), program.packageName.toLowerCase(), output
+      program.name, program.packageName.toLowerCase(), output
     )
     android[program.language.toLowerCase()]()
   })
