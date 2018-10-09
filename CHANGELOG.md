@@ -1,3 +1,7 @@
+## 2.0.0 2018-10-09
+
+* Upgrade templates for both iOS & Android
+
 ## 1.2.1 2017-07-25
 
 * Android:don't convert name to lower case

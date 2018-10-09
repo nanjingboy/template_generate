@@ -6,7 +6,7 @@ A simple tool to generate application template
 ```shell
  $ git clone https://github.com/nanjingboy/template_generator.git
  $ cd ~/template_generator
- $ npm install
+ $ yarn install
 ```
 
 
